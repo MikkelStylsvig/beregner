@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beregningsværktøj</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin: 10px 0;
+            display: block;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Beregningsværktøj</h2>
+
+        <!-- Øverste sektion (unikke eksponeringer og omkostninger) -->
+        <label for="uniqueExposures">Unikke Eksponeringer</label>
+        <input type="number" id="uniqueExposures" placeholder="Indtast Unikke Eksponeringer" required>
+
+        <label for="cost">Omkostninger (f.eks. TV-reklamepris)</label>
+        <input type="number" id="cost" placeholder="Indtast Omkostninger" required>
+
+        <!-- Nederste sektion (engagement rate og konverteringsrate) -->
+        <label for="engagementRate">Engagement Rate (%)</label>
+        <input type="number" id="engagementRate" placeholder="Indtast Engagement Rate" required>
+
+        <label for="conversionRate">Konverteringsrate (%)</label>
+        <input type="number" id="conversionRate" placeholder="Indtast Konverteringsrate" required>
+
+        <button onclick="calculateResults()">Beregn</button>
+
+        <div id="results" class="result"></div>
+    </div>
+
+    <script>
+        function calculateResults() {
+            // Hent inputværdier
+            const uniqueExposures = document.getElementById('uniqueExposures').value;
+            const engagementRate = document.getElementById('engagementRate').value;
+            const conversionRate = document.getElementById('conversionRate').value;
+            const cost = document.getElementById('cost').value;
+
+            // Tjek om input er gyldige
+            if (uniqueExposures === '' || engagementRate === '' || conversionRate === '' || cost === '') {
+                alert("Indtast venligst alle felter.");
+                return;
+            }
+
+            // Beregning af antal besøgende og kunder
+            const visitors = uniqueExposures * (engagementRate / 100);
+            const customers = visitors * (conversionRate / 100);
+
+            // Beregn Cost per Customer (CAC)
+            const cac = cost / customers;
+
+            // Vis resultater
+            const results = `
+                <p><strong>Besøgende på hjemmesiden:</strong> ${Math.round(visitors)}</p>
+                <p><strong>Antal kunder:</strong> ${Math.round(customers)}</p>
+                <p><strong>Cost per Customer (CAC):</strong> ${Math.round(cac)} kr.</p>
+            `;
+
+            document.getElementById('results').innerHTML = results;
+        }
+    </script>
+
+</body>
+</html>
